@@ -1,23 +1,28 @@
 input.onButtonPressed(Button.B, function () {
-   
-    
+    if(TrigerOpened){
+        SuperBit.Servo2(SuperBit.enServo.S6, 170)
+    }else{
+        SuperBit.Servo2(SuperBit.enServo.S6, 100)
+    }
+
+    TrigerOpened = !TrigerOpened
     // SuperBit.RGB_Program().showColor(neopixel.colors(NeoPixelColors.Yellow))
 })
 
 
-SuperBit.Servo2(SuperBit.enServo.S5, 0)
-SuperBit.Servo2(SuperBit.enServo.S6, 170)
-SuperBit.RGB_Program().showColor(neopixel.colors(NeoPixelColors.Yellow))
-
 input.onButtonPressed(Button.A, function () {
-    isActive = !(isActive)
-
+    
     SuperBit.Servo2(SuperBit.enServo.S5, 0)
-    SuperBit.Servo2(SuperBit.enServo.S6, 170)
-    SuperBit.RGB_Program().showColor(neopixel.colors(NeoPixelColors.Yellow))
+    RotorAngle = 0
+    
+
+    isActive = !(isActive)
+    // SuperBit.RGB_Program().showColor(neopixel.colors(NeoPixelColors.Yellow))
 })
 let RotorAngle = 0
 let isActive = false
+let TrigerOpened = true
+SuperBit.Servo2(SuperBit.enServo.S6, 100)
 let distance = 0
 let Wise = "clock"
 console.log(distance)
@@ -27,7 +32,8 @@ basic.forever(function () {
     DigitalPin.P2,
     PingUnit.Centimeters
     )
-    if (RotorAngle > 45) {
+
+    if (RotorAngle > 90) {
         Wise = "clock"
     }
     if (RotorAngle < 0) {
@@ -44,18 +50,16 @@ basic.forever(function () {
                 RotorAngle += -2
             }
             SuperBit.Servo2(SuperBit.enServo.S5, RotorAngle)
-            SuperBit.RGB_Program().showColor(neopixel.colors(NeoPixelColors.Yellow))
+            // SuperBit.RGB_Program().showColor(neopixel.colors(NeoPixelColors.Yellow))
         } else {
-            SuperBit.RGB_Program().showColor(neopixel.colors(NeoPixelColors.Red))
+            // SuperBit.RGB_Program().showColor(neopixel.colors(NeoPixelColors.Red))
             if (Wise == "Rclock") {
-                RotorAngle += 5
+                RotorAngle += 10
             } else {
-                RotorAngle += -5
+                RotorAngle += -10
             }
             SuperBit.Servo2(SuperBit.enServo.S5, RotorAngle)
-            music.playMelody("- C5 C5 - C5 C5 - - ", 900)
-
-            pause(5000)
+            music.playMelody("- C5 C5 - - - - - ", 900)           
             SuperBit.Servo2(SuperBit.enServo.S6, 100)
         }
     }
